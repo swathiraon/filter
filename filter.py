@@ -89,6 +89,7 @@ canvas.create_image(150,150, image=img1)
 
 
 
+
 f11 = Frame(root, bg = "GREEN",bd=2, width = 500, height =500)
 f11.pack(side=LEFT,expand=1)
 Label(f11, text = "preview").pack()
@@ -115,7 +116,6 @@ B1.grid(column=3,row=20, pady=10,padx=40)
 
 
 
-
 # f3 = Frame(f, bg = "red", width = 500)
 # f3.pack(side=LEFT, expand = 1, pady = 50, padx = 50)
 
@@ -132,4 +132,18 @@ B1.grid(column=3,row=20, pady=10,padx=40)
 # b3 = Button(f3, text = "2")
 # b3.grid(row=2, column=0)
 
+def sel():
+   selection = "Value = " + str(var.get())
+   label.config(text = selection)
+
+
+var = DoubleVar()
+scale = Scale( root, variable = var )
+scale.pack(anchor=CENTER)
+
+button = Button(root, text="Set Brightness", command=sel)
+button.pack(anchor=CENTER)
+
+label = Label(root)
+label.pack()
 root.mainloop()
