@@ -9,6 +9,7 @@ location="C:/vivek"
 open_file=None
 save_file=None
 img1=None
+img2=None
 root = Tk()
 history=[]
 address=[]
@@ -21,10 +22,11 @@ def main_image():
 	canvas.delete("all")
 	canvas.create_image(150,150, image=img1)
 
-def preview_image(path):
+def preview_image():
 
 	      
-	canvas1.create_image(150,150, image=path)
+	canvas1.delete("all")
+	canvas1.create_image(150,150, image=img2)
 
 ##########################opening and saving a file########################
 def open_image(): 
@@ -32,6 +34,7 @@ def open_image():
 	open_file= askopenfilename() 
 	print(open_file)
 	global img1
+	address.append(open_file)
 	img1 = PhotoImage(file=open_file)
 	address.append(open_file)
 	history.append(img1)
@@ -188,36 +191,180 @@ film.grid(column=3,row=20, pady=10,padx=30)
 ############the brightness and contrast sharpness and the color##########
 
 
+
+
+
+
+def apply_contrast(value):
+	path=address[-1]
+	global img1
+	p=contrast1(path,value)
+	img1=p.pop()
+	main_image()
+	pil_image=p.pop()
+	fullpath = os.path.join(location, "sszz" + '.' + "png")
+	print(fullpath)
+	pil_image.save(fullpath)
+	address.append(fullpath)
+	history.append(img1)
+
+
+def sel_contrast():
+	v=int(var.get())
+	if v == 0:
+		pass
+	else:
+		apply_contrast(int(var.get()))
+
+def preview_contrast(val):
+	v=int(val)
+	if v==0:
+		pass
+	else:
+		path=address[-1]
+		global img2
+		p=contrast1(path,val)
+		img2=p.pop()
+		preview_image()
+   
 	
-
-Label(f2, text = "Brightness").grid(column=2,row=29)
 var = DoubleVar()
-scale1 = Scale( f2, variable = var )
+Label(f2, text = "Contrast").grid(column=2,row=29)
+scale1 = Scale( f2 , from_=-10.0, to=10.0,variable = var,command=preview_contrast)
 scale1.grid(column=2, row=30)
+set_bright = Button(f2, text="Apply", command=sel_contrast)
+set_bright.grid(column=2,row=31)
 
-def cont():
-	k=var1.get()
-	path=history[-1]
-	im=contrast(path,k)
-	history.append(im)
-	main_image(im)
+def apply_brightness(value):
+	path=address[-1]
+	global img1
+	p=brightness1(path,value)
+	img1=p.pop()
+	main_image()
+	pil_image=p.pop()
+	fullpath = os.path.join(location, "sszz" + '.' + "png")
+	print(fullpath)
+	pil_image.save(fullpath)
+	address.append(fullpath)
+	history.append(img1)
 
-Label(f2, text = "Contrast").grid(column=4,row=29)
+
+def sel_brightness():
+	v=int(var.get())
+	if v == 0:
+		pass
+	else:
+		apply_brightness(int(var.get()))
+
+def preview_brightness(val):
+	v=int(val)
+	if v==0:
+		pass
+	else:
+		path=address[-1]
+		global img2
+		p=brightness1(path,val)
+		img2=p.pop()
+		preview_image()
+
+Label(f2, text = "Brightness").grid(column=4,row=29)
 var1= DoubleVar()
-scale2 = Scale( f2, variable = var1)
+scale2 = Scale( f2, from_=-10.0, to=10.0,variable = var1,command=preview_brightness)
 scale2.grid(column=4, row=30)
+set_bright = Button(f2, text="Apply", command=sel_brightness)
+set_bright.grid(column=4,row=31)
+#########################################
+
+def apply_sharpness(value):
+	print("apply_sharpness")
+	path=address[-1]
+	global img1
+	p=sharpness1(path,value)
+	img1=p.pop()
+	main_image()
+	pil_image=p.pop()
+	fullpath = os.path.join(location, "sszz" + '.' + "png")
+	print(fullpath)
+	pil_image.save(fullpath)
+	address.append(fullpath)
+	history.append(img1)
+
+
+def sel_sharpness():
+	v=int(var3.get())
+	
+	if v == 0:
+		pass
+		
+
+	else:
+
+		apply_sharpness(int(var3.get()))
+		
+
+def preview_sharpness(val):
+	v=int(val)
+	if v==0:
+		pass
+	else:
+		path=address[-1]
+		global img2
+		p=sharpness1(path,val)
+		img2=p.pop()
+		preview_image()
 
 
 Label(f2, text = "Sharpness",pady=5).grid(column=2,row=59)
-var2= DoubleVar()
-scale3 = Scale( f2, variable = var2 )
+var3= DoubleVar()
+scale3 = Scale( f2, from_=-10.0, to=10.0,variable = var3,command=preview_sharpness )
 scale3.grid(column=2, row=60)
+set_bright = Button(f2, text="Apply", command=sel_sharpness)
+set_bright.grid(column=2,row=61)
+
+
+##########################
+
+def apply_hue(value):
+	print("apply_hue")
+	path=address[-1]
+	global img1
+	p=hue1(path,value)
+	img1=p.pop()
+	main_image()
+	pil_image=p.pop()
+	fullpath = os.path.join(location, "sszz" + '.' + "png")
+	print(fullpath)
+	pil_image.save(fullpath)
+	address.append(fullpath)
+	history.append(img1)
+
+
+def sel_hue():
+	v=float(var4.get())
+
+	apply_hue(v)
+		
+
+def preview_hue(val):
+	v=float(val)
+	path=address[-1]
+
+	global img2
+	p=hue1(path,v)
+	img2=p.pop()
+	preview_image()
+
+
+
+
 
 Label(f2, text = " Color " ,pady=5).grid(column=4,row=59)
-var2= DoubleVar()
-scale3 = Scale( f2, variable = var2 )
+var4= DoubleVar()
+scale3 = Scale( f2, from_=90, to=255,variable = var4,command=preview_hue)
 scale3.grid(column=4, row=60)
-
+set_bright = Button(f2, text="Apply", command=sel_hue)
+set_bright.grid(column=4,row=61)
+###############
 def undo_button():
 	if len(history)== 0  :
 		pass
