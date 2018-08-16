@@ -1,11 +1,16 @@
 import os
-from PIL import Image
+from PIL import Image,ImageTk
 from PIL import ImageFilter
 
 def rotate(i):
+	p=[]
 	im=Image.open(i)
 	out=im.transpose(Image.ROTATE_90)
-	return out
+	image_tk = ImageTk.PhotoImage(out)
+	p.append(out)
+	p.append(image_tk)
+	print(type(image_tk))
+	return p
 def bw(i):
 	im=Image.open(i)
 	bw1=im.convert('L')

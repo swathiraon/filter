@@ -1,56 +1,25 @@
-# from tkinter import *      
-# root = Tk()      
-# canvas = Canvas(root, width = 300, height = 300)      
-# canvas.pack()      
-# img = PhotoImage(file="A8R.gif")      
-# canvas.create_image(150,150, image=img)      
-# mainloop()   
-
-#to display the image.in the canvas.
-
-# from tkinter import *
-
-# root = Tk()
-# frame = Frame(root)
-# frame.grid()
-
-# bottomframe = Frame(root)
-# # bottomframe.pack( side = BOTTOM )
-
-# # redbutton = Button(frame, text="Red", fg="red")
-# # redbutton.pack( side = LEFT)
-
-# # greenbutton = Button(frame, text="Brown", fg="brown")
-# # greenbutton.pack( side = LEFT )
-
-# bluebutton = Button(frame, text="Blue", fg="blue")
-# bluebutton.grid( column=0,row=1000)
-
-# # blackbutton = Button(bottomframe, text="Black", fg="black")
-# # blackbutton.pack( side = BOTTOM)
-
-# root.mainloop()
-
-
-
 
 from tkinter import * 
 from tkinter.filedialog import *
-import app
+from app import *
 from PIL import Image
+import os
 x=None
+location="C:/vivek"
 open_file=None
 save_file=None
-
+img1=None
 root = Tk()
 history=[]
+address=[]
 # f1 = Frame(root,bd=2, width = 500, height =500)
 # f1.pack(side=LEFT, expand = 1)
 
-def main_image(path):
-	print(type(path))
-	print(type(canvas))
-	canvas.create_image(150,150, image=path)
+def main_image():
+	#print(type(path))
+	#print(type(canvas))
+	canvas.delete("all")
+	canvas.create_image(150,150, image=img1)
 
 def preview_image(path):
 
@@ -62,10 +31,12 @@ def open_image():
 	global open_file
 	open_file= askopenfilename() 
 	print(open_file)
-	#im=Image.open(open_file)
-	history.append(open_file)
+	global img1
 	img1 = PhotoImage(file=open_file)
-	main_image(img1)
+	address.append(open_file)
+	history.append(img1)
+	print(len(history))
+	main_image()
 
 
 def close_image():
@@ -73,7 +44,6 @@ def close_image():
 	save_file= askdirectory()
 	k=open_file.split("/")
 	p=k[-1]
-
 	os.rename(open_file,save_file+"/"+"p.jpg")
 
 
@@ -99,10 +69,18 @@ def pix():
 	print(s)
 #rotating the image
 def call_rotate():
-	path=history[-1]
-	im=rotate(path)
-	history.append(im)
-	main_image(im)
+	path=address[-1]
+	global img1
+	p=rotate(path)
+	img1=p.pop()
+	main_image()
+	pil_image=p.pop()
+	fullpath = os.path.join(location, "sszz" + '.' + "png")
+	print(fullpath)
+	pil_image.save(fullpath)
+	address.append(fullpath)
+	history.append(img1)
+	
 
 
 Rotate = Button(f, text="Rotate", fg="brown",command=call_rotate)
@@ -217,25 +195,23 @@ var2= DoubleVar()
 scale3 = Scale( f2, variable = var2 )
 scale3.grid(column=4, row=60)
 
+def undo_button():
+	if len(history)== 0  :
+		pass
+		print(len(history))
+	
 
-undo = Button(f2, text="Undo", fg="brown",bg="blue")
+	else:
+		print(len(history))
+		global img1
+		img1=history.pop()
+		main_image()
+
+
+
+undo = Button(f2, text="Undo", fg="brown",bg="blue",command=undo_button)
 undo.grid(column=3,row=90, pady=50,padx=30)
 
 
-# f3 = Frame(f, bg = "red", width = 500)
-# f3.pack(side=LEFT, expand = 1, pady = 50, padx = 50)
-
-# f2 = Frame(root, bg = "black", height=100, width = 100)
-# f2.pack(side=LEFT, fill = Y)
-
-# b = Button(f2, text = "test")
-# b.pack()
-
-# b = Button(f3, text = "1", bg = "red")
-# b.grid(row=1, column=3)
-# b2 = Button(f3, text = "2")
-# b2.grid(row=1, column=4)
-# b3 = Button(f3, text = "2")
-# b3.grid(row=2, column=0)
 
 root.mainloop()
