@@ -88,20 +88,35 @@ Rotate.grid(column=2,row=0,padx=10, pady=50)
 
 #bluring the image
 def call_blur():
-	path=history[-1]
-	im=blur(path)
-	history.append(im)
-	main_image(im)
+	path=address[-1]
+	global img1
+	p=blur1(path)
+	img1=p.pop()
+	main_image()
+	pil_image=p.pop()
+	fullpath = os.path.join(location, "sszz" + '.' + "png")
+	print(fullpath)
+	pil_image.save(fullpath)
+	address.append(fullpath)
+	history.append(img1)
 
 blur = Button(f, text="Blur", fg="brown",command=call_blur)
 blur.grid(column=2,row=5,padx=10, pady=50)
 
 #change to black and white
 def call_b2w():
-	path=history[-1]
-	im=blur(path)
-	history.append(im)
-	main_image(im)
+	path=address[-1]
+	global img1
+	p=bw(path)
+	img1=p.pop()
+	main_image()
+	pil_image=p.pop()
+	fullpath = os.path.join(location, "sszz" + '.' + "png")
+	print(fullpath)
+	pil_image.save(fullpath)
+	address.append(fullpath)
+	history.append(img1)
+
 b2w = Button(f, text=" B&W ", fg="brown",command=call_b2w)
 b2w.grid(column=2,row=10,padx=10, pady=50)
 
