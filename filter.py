@@ -122,12 +122,20 @@ b2w.grid(column=2,row=10,padx=10, pady=50)
 
 #corp the image
 def accept():
-	length=pixels.get()
-	width=pixel.get()
-	path=history[-1]
-	im=crop(path,length,width)
-	history.append(im)
-	main_image(im)
+	
+	length=int(pixels.get())
+	width=int(pixel.get())
+	path=address[-1]
+	global img1
+	p=crop1(path,length,width)
+	img1=p.pop()
+	main_image()
+	pil_image=p.pop()
+	fullpath = os.path.join(location, "sszz" + '.' + "png")
+	print(fullpath)
+	pil_image.save(fullpath)
+	address.append(fullpath)
+	history.append(img1)
 
 pixels=Entry(f, width = 10)
 pixels.grid(column=0,row=20)	

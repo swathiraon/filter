@@ -20,10 +20,18 @@ def bw(i):
 	p.append(image_tk)
 	print(type(image_tk))
 	return p
-def crop(i,length,width):
+def crop1(i,length,width):
+	p=[]
 	size=(length,width)
 	im =Image.open(i)
 	im.thumbnail(size)
+	image_tk = ImageTk.PhotoImage(im)
+	p.append(im)
+	p.append(image_tk)
+	print(type(image_tk))
+	return p
+
+
 	return im
 def blur1(i):
 	p=[]
