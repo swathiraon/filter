@@ -4,7 +4,7 @@ from PIL import ImageFilter,ImageEnhance
 import colorsys
 
 def rotate(i):
-	p=[]
+	p=[]#first the pil image will be appended and then the tkinter image will be appended
 	im=Image.open(i)
 	out=im.transpose(Image.ROTATE_90)
 	image_tk = ImageTk.PhotoImage(out)
