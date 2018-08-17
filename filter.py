@@ -2,10 +2,13 @@
 from tkinter import * 
 from tkinter.filedialog import *
 from app import *
-from PIL import Image
+from PIL import Image,ImageTk
 import os
 x=None
-location="C:/vivek"
+newpath = r'C:/__editedpics__'
+if not os.path.exists(newpath):
+	os.makedirs(newpath)
+location="C:/__editedpics__"
 open_file=None
 save_file=None
 img1=None
@@ -35,7 +38,8 @@ def open_image():
 	print(open_file)
 	global img1
 	address.append(open_file)
-	img1 = PhotoImage(file=open_file)
+	image = Image.open(open_file)
+	img1 =ImageTk.PhotoImage(image)
 	address.append(open_file)
 	history.append(img1)
 	print(len(history))
@@ -63,6 +67,8 @@ close.pack()
 #######################opening and saving a file#####################
 
 
+###################### rotating an image########################3
+
 
 f = Frame(root ,bd=5,width = 1, height =1080)
 f.pack(side=LEFT)
@@ -88,6 +94,7 @@ def call_rotate():
 
 Rotate = Button(f, text="Rotate", fg="brown",command=call_rotate)
 Rotate.grid(column=2,row=0,padx=10, pady=50)
+###################### rotating an image########################3
 
 #bluring the image
 def call_blur():
@@ -175,10 +182,12 @@ canvas1.pack()
 
 
 
-###############the filter side part###############33333
+###############the filter side part(right sided part)  ###############
 f2 = Frame(root,bd=2, width = 500, height =500)
 f2.pack(side=RIGHT)
-###########the filter button#########33333333
+###########the filter button#########
+
+
 cool = Button(f2, text="Cool", fg="brown")
 cool.grid(column=3,row=0,padx=10, pady=30)
 pop = Button(f2, text="PoP", fg="brown")
@@ -190,11 +199,7 @@ film.grid(column=3,row=20, pady=10,padx=30)
 
 ############the brightness and contrast sharpness and the color##########
 
-
-
-
-
-
+###############contrast slider
 def apply_contrast(value):
 	path=address[-1]
 	global img1
@@ -234,6 +239,8 @@ scale1 = Scale( f2 , from_=-10.0, to=10.0,variable = var,command=preview_contras
 scale1.grid(column=2, row=30)
 set_bright = Button(f2, text="Apply", command=sel_contrast)
 set_bright.grid(column=2,row=31)
+####################brightness slider
+
 
 def apply_brightness(value):
 	path=address[-1]
@@ -273,7 +280,7 @@ scale2 = Scale( f2, from_=-10.0, to=10.0,variable = var1,command=preview_brightn
 scale2.grid(column=4, row=30)
 set_bright = Button(f2, text="Apply", command=sel_brightness)
 set_bright.grid(column=4,row=31)
-#########################################
+#########################################sharpness slider
 
 def apply_sharpness(value):
 	print("apply_sharpness")
@@ -322,7 +329,7 @@ set_bright = Button(f2, text="Apply", command=sel_sharpness)
 set_bright.grid(column=2,row=61)
 
 
-##########################
+##########################hue slider
 
 def apply_hue(value):
 	print("apply_hue")
@@ -346,7 +353,7 @@ def sel_hue():
 		
 
 def preview_hue(val):
-	v=float(val)
+	v=int(val)
 	path=address[-1]
 
 	global img2
@@ -355,16 +362,18 @@ def preview_hue(val):
 	preview_image()
 
 
-
-
-
 Label(f2, text = " Color " ,pady=5).grid(column=4,row=59)
 var4= DoubleVar()
-scale3 = Scale( f2, from_=90, to=255,variable = var4,command=preview_hue)
+scale3 = Scale( f2, from_=0, to=10,variable = var4,command=preview_hue)
 scale3.grid(column=4, row=60)
 set_bright = Button(f2, text="Apply", command=sel_hue)
 set_bright.grid(column=4,row=61)
-###############
+
+
+
+###############undo button
+
+
 def undo_button():
 	if len(history)== 0  :
 		pass
@@ -375,6 +384,7 @@ def undo_button():
 		print(len(history))
 		global img1
 		img1=history.pop()
+		address.pop()
 		main_image()
 
 
